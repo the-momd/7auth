@@ -21,8 +21,8 @@ function site_url($uri = ''){
     return BASE_URL . $uri;
 }
 
-function redirect($url){
-    header("Location: $url");
+function redirect(string $target = BASE_URL):void{
+    header("Location: $target");
     die();
 }
 
@@ -41,4 +41,13 @@ function dd($var){
     echo "<pre style='text-align:left; direction:ltr; color:#d40202; background: #fefbfb; z-index:999; position:relative; padding:10px; margin:10px; border-radius:5px; border-left:3px solid red;'>";
     var_dump($var);
     echo "</pre>";
+}
+
+function assets(string $path):string {
+    return site_url('assets/' . $path);
+}
+
+function setErrorAndRedirect(string $message, string $target):void{
+    $_SESSION['error'] = $message;
+    redirect(site_url($target));
 }
