@@ -21,6 +21,15 @@
                         7Learn Auth <br />
                         <span style="color: hsl(218, 81%, 75%)">Verify Page</span>
                     </h1>
+                    <?php if(!empty($_SESSION['error'])) :  ?>
+                        <h3 class="text-danger">Fix this error and try again.</h3>
+                        <h4 class="mb-4 opacity-70 text-danger">
+                            <?=$_SESSION['error'] ?>
+                            
+                    </h4>
+                    <?php
+                    unset($_SESSION['error']);
+                    endif;  ?>
                 </div>
 
                 <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
@@ -29,7 +38,7 @@
 
                     <div class="card bg-glass">
                         <div class="card-body px-4 py-5 px-md-5">
-                            <form action="#" method="post">
+                            <form action="<?= site_url('auth.php?action=verify') ?>" method="post">
                                 <!-- Token input -->
                                 <div class="form-outline mb-4">
                                     <input type="text" name="token" id="token" class="form-control" />

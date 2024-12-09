@@ -21,6 +21,15 @@
                         7Learn Auth <br />
                         <span style="color: hsl(218, 81%, 75%)">Login Page</span>
                     </h1>
+                    <?php if(!empty($_SESSION['error'])) :  ?>
+                        <h3 class="text-danger">Fix this error and try again.</h3>
+                        <h4 class="mb-4 opacity-70 text-danger">
+                            <?=$_SESSION['error'] ?>
+                            
+                    </h4>
+                    <?php
+                    unset($_SESSION['error']);
+                    endif;  ?>
                 </div>
 
                 <div class="col-lg-6 mb-5 mb-lg-0 position-relative">

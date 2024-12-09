@@ -32,7 +32,7 @@ function diePage($msg){
 }
 
 function message($msg, $cssClass = 'info'){
-    echo "<div class='$cssClass' style='padding: 20px; width: 80%; margin: 0 auto; background: #f68d8d; border-radius: 5px; border: 1px solid; border-color: red; font-family: sans-serif; text-align: center;'>" . htmlspecialchars_decode($msg) . "</div>";
+    echo "<div class='$cssClass' style='padding: color:'green'; 20px; width: 80%; margin: 0 auto; background: #f68d8d; border-radius: 5px; border: 1px solid; border-color: red; font-family: sans-serif; text-align: center;'>" . htmlspecialchars_decode($msg) . "</div>";
 }
 
 
