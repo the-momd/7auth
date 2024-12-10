@@ -69,7 +69,7 @@ function sendTokenByMail(string $email,string|int $token):bool{
     return $mail->send();
 }
 
-function chengeLoginSession(string $session, string $email):bool{
+function chengeLoginSession(string $email, string $session = null):bool{
     global $pdo;
     $sql = 'UPDATE `users` SET `session` = :session WHERE `email` = :email';
     $stmt = $pdo->prepare($sql);
@@ -113,4 +113,10 @@ function deleteExpiredTokens():bool{
     $stmt->execute();
     return $stmt->rowCount();
 
+}
+
+function logOut(string $email):void{
+    chengeLoginSession($email);
+    setcookie('auth','',time() - 60 , '/');
+    redirect('auth.php');
 }
