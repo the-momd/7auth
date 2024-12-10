@@ -48,21 +48,69 @@ function isAliveToken(string $hash):bool{
     $record = findTokenByHash($hash);
     if(!$record)
         return false;
-        return $record->rexpired_at > time() + 120;
+        return strtotime($record->expired_at) > time() + 120;
 }
 
-function findTokenByHash(string $hash):object{
+function findTokenByHash(string $hash):object|bool{
     global $pdo;
     $sql = 'SELECT * FROM `tokens` WHERE `hash` = :hash';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
-        'hash' => $hash
+        ':hash' => $hash
     ]);
     return $stmt->fetch(PDO::FETCH_OBJ);
 }
 
-# send token
+function sendTokenByMail(string $email,string|int $token):bool{
+    global $mail;
+    $mail->addAddress($email);
+    $mail->Subject = '7Auth verify token';
+    $mail->Body = 'Your token is: ' . $token;
+    return $mail->send();
+}
 
-# verify token
+function chengeLoginSession(string $session, string $email):bool{
+    global $pdo;
+    $sql = 'UPDATE `users` SET `session` = :session WHERE `email` = :email';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':session' => $session,
+        ':email' => $email
+    ]);
+    return $stmt->rowCount() ? true : false;
+}
 
-# set login session
+function deleteTokenByHash(string $hash):bool{
+    global $pdo;
+    $sql = 'DELETE FROM `tokens` WHERE `hash` = :hash';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':hash' => $hash
+    ]);
+    return $stmt->rowCount() ? true : false;
+}
+
+function getAuthenticateUserBySession(string $session):object|bool{
+    global $pdo;
+    $sql = 'SELECT * FROM `users` WHERE `session` = :session';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':session' => $session
+    ]);
+    return $stmt->fetch(PDO::FETCH_OBJ);
+}
+
+function isLoggedIn():bool{
+    if(empty($_COOKIE['auth']))
+        return false;
+    return getAuthenticateUserBySession($_COOKIE['auth']) ? true : false;
+}
+
+function deleteExpiredTokens():bool{
+    global $pdo;
+    $sql = 'DELETE  FROM `tokens` WHERE `expired_at` < now()';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    return $stmt->rowCount();
+
+}

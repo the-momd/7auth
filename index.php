@@ -1,3 +1,9 @@
+<?php
+require 'bootstrap/init.php';
+if(!isLoggedIn()){
+    redirect('auth.php?action=login');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,5 +13,10 @@
 </head>
 <body>
     <h1 style="text-align: center;">User Profile</h1>
+    <ul>
+        <?php foreach (getAuthenticateUserBySession($_COOKIE['auth']) as $key => $value) : ?>
+            <li><?= "$key: $value" ?></li>
+        <?php endforeach; ?>
+    </ul>
 </body>
 </html>

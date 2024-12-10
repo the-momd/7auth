@@ -5,3 +5,4 @@ $database_config = (object) [
     'pass' => '',
     'db' => '7auth',
 ];
+
