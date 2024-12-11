@@ -1,4 +1,7 @@
 <?php
+
+use Kavenegar\KavenegarApi;
+
 $database_config = (object) [
     'host' => 'localhost',
     'user' => 'root',
@@ -6,3 +9,4 @@ $database_config = (object) [
     'db' => '7auth',
 ];
 
+$api = new KavenegarApi("{ API Key } ");

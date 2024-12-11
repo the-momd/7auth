@@ -51,3 +51,4 @@ function setErrorAndRedirect(string $message, string $target):void{
     $_SESSION['error'] = $message;
     redirect(site_url($target));
 }
+

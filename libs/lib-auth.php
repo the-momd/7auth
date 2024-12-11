@@ -69,6 +69,17 @@ function sendTokenByMail(string $email,string|int $token):bool{
     return $mail->send();
 }
 
+function sendTokenBySms(string $phone, string|int $token)
+{
+    global $api;
+    $receptor = $phone;
+    $token2 = "";
+    $token3 = "";
+    $template = "verify";
+    $type = "sms"; //sms | call
+    return $api->VerifyLookup($receptor, $token, $token2, $token3, $template, $type);
+}
+
 function chengeLoginSession(string $email, string $session = null):bool{
     global $pdo;
     $sql = 'UPDATE `users` SET `session` = :session WHERE `email` = :email';
